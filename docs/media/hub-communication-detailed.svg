@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" viewBox="0 0 1600 1180" role="img" aria-labelledby="title desc">
+  <title id="title">Detailed LEGO Train Elevator hub communication payloads</title>
+  <desc id="desc">Detailed BLE payload fields communicated between the LEGO train elevator hubs.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2f6fed" />
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#15845b" />
+    </marker>
+    <marker id="arrow-gold" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#93701f" />
+    </marker>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2633; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #4d5b6a; }
+      .hub { fill: #fff; stroke: #26384d; stroke-width: 2.5; rx: 14; }
+      .main { fill: #eef4ff; stroke: #2f6fed; stroke-width: 3; rx: 14; }
+      .optional { fill: #fff9e8; stroke: #93701f; stroke-width: 2.4; stroke-dasharray: 8 6; rx: 14; }
+      .hub-title { font: 700 22px Arial, sans-serif; fill: #1d2633; }
+      .file { font: 600 14px Arial, sans-serif; fill: #526071; }
+      .field { font: 400 14px Arial, sans-serif; fill: #2f4054; }
+      .field-strong { font: 700 14px Arial, sans-serif; fill: #1f2f43; }
+      .line-blue { fill: none; stroke: #2f6fed; stroke-width: 3; marker-end: url(#arrow-blue); }
+      .line-green { fill: none; stroke: #15845b; stroke-width: 3; marker-end: url(#arrow-green); }
+      .line-gold { fill: none; stroke: #93701f; stroke-width: 3; stroke-dasharray: 9 7; marker-end: url(#arrow-gold); }
+      .tag-blue { fill: #2f6fed; }
+      .tag-green { fill: #15845b; }
+      .tag-gold { fill: #93701f; }
+      .tag-text { font: 700 13px Arial, sans-serif; fill: #fff; }
+      .payload { fill: #ffffff; stroke: #c7d0dc; stroke-width: 1.6; rx: 10; }
+      .payload-title { font: 700 15px Arial, sans-serif; fill: #1f2f43; }
+      .payload-text { font: 400 13px Arial, sans-serif; fill: #405066; }
+      .note { font: 400 14px Arial, sans-serif; fill: #5d6a7a; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="1180" />
+  <text class="title" x="70" y="70">Detailed Hub Communication Payloads</text>
+  <text class="subtitle" x="70" y="100">What each hub broadcasts and which other hubs consume it in the current Pybricks programs.</text>
+
+  <!-- Hub boxes -->
+  <rect class="main" x="585" y="420" width="430" height="265" />
+  <text class="hub-title" x="620" y="465">Main Motor Hub</text>
+  <text class="file" x="620" y="490">elevator_motor.py - broadcasts MOTOR 113</text>
+  <text class="field" x="620" y="520">Normal payload, 10 values:</text>
+  <text class="field" x="638" y="545">0 encoded current incoming/outgoing levels</text>
+  <text class="field" x="638" y="568">1 motor state, 2 countdown, 3 encoded new target</text>
+  <text class="field" x="638" y="591">4 ready flag, 5 target/progress, 6 power</text>
+  <text class="field" x="638" y="614">7 run flag, 8 level2 incoming, 9 level2 outgoing</text>
+  <text class="field" x="620" y="648">Config payload, 3 values: mode, speed, count</text>
+
+  <rect class="hub" x="70" y="210" width="385" height="185" />
+  <text class="hub-title" x="105" y="255">Switch Hub</text>
+  <text class="file" x="105" y="280">elevator_switch.py - broadcasts SWITCH 110</text>
+  <text class="field" x="105" y="315">Payload list:</text>
+  <text class="field" x="123" y="340">0-2 stable train sensor state per level</text>
+  <text class="field" x="123" y="363">3-5 switch is straight per level</text>
+  <text class="field" x="123" y="386">6-8 train is waiting per level</text>
+
+  <rect class="hub" x="70" y="770" width="385" height="165" />
+  <text class="hub-title" x="105" y="815">Incoming Sensor Hub</text>
+  <text class="file" x="105" y="840">elevator_incoming.py - broadcasts INCOMING 111</text>
+  <text class="field" x="105" y="875">Payload tuple:</text>
+  <text class="field" x="123" y="900">0 entrance is currently blocked</text>
+  <text class="field" x="123" y="923">1 entrance has been stably blocked</text>
+
+  <rect class="hub" x="1145" y="770" width="385" height="185" />
+  <text class="hub-title" x="1180" y="815">Outgoing Selector Hub</text>
+  <text class="file" x="1180" y="840">elevator_outcoming.py - broadcasts OUTCOMING 112</text>
+  <text class="field" x="1180" y="875">Payload list:</text>
+  <text class="field" x="1198" y="900">0-2 selected/blocked sensor per level</text>
+  <text class="field" x="1198" y="923">3 train is ready to move</text>
+  <text class="field" x="1198" y="946">4 selected target level</text>
+
+  <rect class="optional" x="1145" y="210" width="385" height="190" />
+  <text class="hub-title" x="1180" y="255">Motor Expander Hubs</text>
+  <text class="file" x="1180" y="280">elevator_motor_expander.py - broadcasts 114/115</text>
+  <text class="field" x="1180" y="315">Normal status payload:</text>
+  <text class="field" x="1198" y="340">0 connected/ready</text>
+  <text class="field" x="1198" y="363">1 motors done</text>
+  <text class="field" x="1198" y="386">2 current level, 3 angle/progress</text>
+
+  <rect class="optional" x="70" y="990" width="385" height="100" />
+  <text class="hub-title" x="105" y="1032">Optional Switch Sensor Hub</text>
+  <text class="file" x="105" y="1057">broadcasts SWITCH_SENSOR 116</text>
+
+  <rect class="optional" x="1145" y="990" width="385" height="100" />
+  <text class="hub-title" x="1180" y="1032">Experimental Level 2 Platform Hub</text>
+  <text class="file" x="1180" y="1057">observes MOTOR, separate platform helper</text>
+
+  <!-- Payload notes around main -->
+  <rect class="payload" x="585" y="725" width="430" height="105" />
+  <text class="payload-title" x="615" y="760">Encoded levels</text>
+  <text class="payload-text" x="615" y="785">MOTOR encodes incoming and outgoing levels into one integer.</text>
+  <text class="payload-text" x="615" y="808">Other hubs decode the side they care about.</text>
+
+  <rect class="payload" x="585" y="300" width="430" height="78" />
+  <text class="payload-title" x="615" y="335">Bridge movement</text>
+  <text class="payload-text" x="615" y="360">During bridge mode, target/progress lets expander hubs interpolate their own motor angles.</text>
+
+  <!-- Lines to and from main motor -->
+  <path class="line-blue" d="M585,465 C500,430 475,335 455,300" />
+  <rect class="tag-blue" x="470" y="376" width="100" height="27" rx="13.5" />
+  <text class="tag-text" x="486" y="395">MOTOR 113</text>
+
+  <path class="line-blue" d="M640,685 C585,775 510,845 455,852" />
+  <rect class="tag-blue" x="485" y="725" width="100" height="27" rx="13.5" />
+  <text class="tag-text" x="501" y="744">MOTOR 113</text>
+
+  <path class="line-blue" d="M960,685 C1020,780 1090,855 1145,862" />
+  <rect class="tag-blue" x="1025" y="725" width="100" height="27" rx="13.5" />
+  <text class="tag-text" x="1041" y="744">MOTOR 113</text>
+
+  <path class="line-blue" d="M1015,465 C1090,430 1125,335 1145,300" />
+  <rect class="tag-blue" x="1030" y="376" width="100" height="27" rx="13.5" />
+  <text class="tag-text" x="1046" y="395">MOTOR 113</text>
+
+  <path class="line-gold" d="M970,685 C1055,800 1120,945 1145,1040" />
+  <rect class="tag-gold" x="1015" y="895" width="100" height="27" rx="13.5" />
+  <text class="tag-text" x="1031" y="914">MOTOR 113</text>
+
+  <path class="line-green" d="M455,255 C540,260 565,365 610,420" />
+  <rect class="tag-green" x="500" y="277" width="105" height="27" rx="13.5" />
+  <text class="tag-text" x="517" y="296">SWITCH 110</text>
+
+  <path class="line-green" d="M455,900 C545,895 575,760 645,685" />
+  <rect class="tag-green" x="500" y="845" width="122" height="27" rx="13.5" />
+  <text class="tag-text" x="515" y="864">INCOMING 111</text>
+
+  <path class="line-green" d="M1145,910 C1050,895 1020,760 955,685" />
+  <rect class="tag-green" x="995" y="845" width="130" height="27" rx="13.5" />
+  <text class="tag-text" x="1007" y="864">OUTCOMING 112</text>
+
+  <path class="line-gold" d="M1145,255 C1055,260 1035,365 990,420" />
+  <rect class="tag-gold" x="995" y="277" width="125" height="27" rx="13.5" />
+  <text class="tag-text" x="1007" y="296">114/115 status</text>
+
+  <!-- Cross-observe lines between support hubs -->
+  <path class="line-green" d="M262,770 C262,610 262,480 262,395" />
+  <rect class="tag-green" x="285" y="562" width="105" height="27" rx="13.5" />
+  <text class="tag-text" x="302" y="581">SWITCH 110</text>
+
+  <path class="line-green" d="M1145,835 C970,780 650,780 455,835" />
+  <rect class="tag-green" x="725" y="790" width="122" height="27" rx="13.5" />
+  <text class="tag-text" x="740" y="809">INCOMING 111</text>
+
+  <path class="line-gold" d="M262,990 C262,860 262,520 262,395" />
+  <rect class="tag-gold" x="285" y="957" width="148" height="27" rx="13.5" />
+  <text class="tag-text" x="300" y="976">SWITCH_SENSOR 116</text>
+
+  <!-- Consumption descriptions -->
+  <rect class="payload" x="70" y="430" width="385" height="120" />
+  <text class="payload-title" x="100" y="465">Who observes SWITCH?</text>
+  <text class="payload-text" x="100" y="490">Main motor hub queues waiting trains and checks switch safety.</text>
+  <text class="payload-text" x="100" y="513">Incoming hub displays waiting levels on its matrix.</text>
+
+  <rect class="payload" x="1145" y="430" width="385" height="120" />
+  <text class="payload-title" x="1175" y="465">Who observes MOTOR?</text>
+  <text class="payload-text" x="1175" y="490">Incoming/outgoing hubs show state and target feedback.</text>
+  <text class="payload-text" x="1175" y="513">Expander hubs mirror motion and level 2 platform flags.</text>
+
+  <rect class="payload" x="70" y="590" width="385" height="120" />
+  <text class="payload-title" x="100" y="625">Who observes INCOMING?</text>
+  <text class="payload-text" x="100" y="650">Main motor hub waits for clear entrance before driving.</text>
+  <text class="payload-text" x="100" y="673">Outgoing hub uses it to restart selection if another train enters.</text>
+
+  <rect class="payload" x="1145" y="590" width="385" height="120" />
+  <text class="payload-title" x="1175" y="625">Who observes OUTCOMING?</text>
+  <text class="payload-text" x="1175" y="650">Main motor hub reads the selected target level.</text>
+  <text class="payload-text" x="1175" y="673">It then moves with the train once switches and entrance are safe.</text>
+
+  <text class="note" x="70" y="1140">Dashed boxes/lines are optional or experimental. Payload field numbers match the tuple/list positions used in the current Python files.</text>
+</svg>

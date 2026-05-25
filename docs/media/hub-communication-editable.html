@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LEGO Train Elevator - Editable Hub Communication Diagram</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --ink: #1d2633;
+      --muted: #506074;
+      --line: #cbd5e1;
+      --blue: #2f6fed;
+      --green: #15845b;
+      --gold: #93701f;
+      --card: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 22px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+
+    .toolbar h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .toolbar p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 1px solid #aab6c5;
+      background: #fff;
+      border-radius: 6px;
+      padding: 8px 11px;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .page {
+      width: 1600px;
+      min-height: 1120px;
+      margin: 28px auto 60px;
+      padding: 46px;
+      background: var(--bg);
+      border: 1px solid #d7dee8;
+      box-shadow: 0 14px 45px rgba(28, 42, 62, 0.13);
+    }
+
+    .diagram-title {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .diagram-subtitle {
+      margin: 8px 0 0;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .canvas {
+      position: relative;
+      width: 1508px;
+      height: 900px;
+      margin-top: 28px;
+      overflow: hidden;
+      border-radius: 12px;
+      background:
+        linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    svg.connectors {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .node {
+      position: absolute;
+      width: 330px;
+      min-height: 145px;
+      padding: 20px 22px;
+      border: 2px solid #25374c;
+      border-radius: 14px;
+      background: var(--card);
+      box-shadow: 0 12px 26px rgba(32, 49, 72, 0.1);
+      cursor: move;
+      user-select: none;
+    }
+
+    .node.main {
+      width: 410px;
+      min-height: 230px;
+      background: #eef4ff;
+      border-color: var(--blue);
+      border-width: 3px;
+    }
+
+    .node.optional {
+      background: #fff9e8;
+      border-color: var(--gold);
+      border-style: dashed;
+    }
+
+    .node h2 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      line-height: 1.18;
+    }
+
+    .node .file {
+      margin-bottom: 12px;
+      color: #526071;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .node ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #2f4054;
+      font-size: 14px;
+      line-height: 1.38;
+    }
+
+    .node [contenteditable="true"] {
+      cursor: text;
+      user-select: text;
+      outline: none;
+    }
+
+    .node [contenteditable="true"]:focus {
+      background: rgba(47, 111, 237, 0.08);
+      box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.16);
+      border-radius: 4px;
+    }
+
+    .connector-line {
+      fill: none;
+      stroke-width: 3;
+    }
+
+    .connector-line.blue {
+      stroke: var(--blue);
+      marker-end: url(#arrow-blue);
+    }
+
+    .connector-line.green {
+      stroke: var(--green);
+      marker-end: url(#arrow-green);
+    }
+
+    .connector-line.gold {
+      stroke: var(--gold);
+      stroke-dasharray: 9 7;
+      marker-end: url(#arrow-gold);
+    }
+
+    .edge-label {
+      position: absolute;
+      min-width: 108px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(20, 31, 46, 0.14);
+      cursor: text;
+      user-select: text;
+    }
+
+    .edge-label.blue {
+      background: var(--blue);
+    }
+
+    .edge-label.green {
+      background: var(--green);
+    }
+
+    .edge-label.gold {
+      background: var(--gold);
+    }
+
+    .legend {
+      position: absolute;
+      left: 520px;
+      top: 22px;
+      width: 370px;
+      padding: 18px 20px;
+      border: 1px solid #c8d0da;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 10px 24px rgba(32, 49, 72, 0.08);
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .sample-line {
+      width: 64px;
+      height: 0;
+      border-top: 3px solid;
+    }
+
+    .sample-line.blue {
+      border-color: var(--blue);
+    }
+
+    .sample-line.green {
+      border-color: var(--green);
+    }
+
+    .sample-line.gold {
+      border-color: var(--gold);
+      border-top-style: dashed;
+    }
+
+    .note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .page {
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>Editable Hub Communication Diagram</h1>
+      <p>Click text to edit. Drag boxes to rearrange. Use browser print/export for PDF or image workflows.</p>
+    </div>
+    <div class="actions">
+      <button type="button" id="reset-layout">Reset layout</button>
+      <button type="button" id="toggle-grid">Toggle grid</button>
+      <button type="button" id="download-html">Download edited HTML</button>
+    </div>
+  </div>
+
+  <main class="page" id="page">
+    <h1 class="diagram-title" contenteditable="true">LEGO Train Elevator Hub Communication</h1>
+    <p class="diagram-subtitle" contenteditable="true">Editable overview of Pybricks BLE channels, broadcast payloads, and which hubs observe each message.</p>
+
+    <section class="canvas" id="canvas" aria-label="Editable communication diagram">
+      <svg class="connectors" id="connectors" aria-hidden="true">
+        <defs>
+          <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+            <path d="M2,2 L10,6 L2,10 Z" fill="#2f6fed"></path>
+          </marker>
+          <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+            <path d="M2,2 L10,6 L2,10 Z" fill="#15845b"></path>
+          </marker>
+          <marker id="arrow-gold" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+            <path d="M2,2 L10,6 L2,10 Z" fill="#93701f"></path>
+          </marker>
+        </defs>
+      </svg>
+
+      <div class="legend">
+        <div class="legend-row"><span class="sample-line blue"></span><span contenteditable="true">Main MOTOR broadcast</span></div>
+        <div class="legend-row"><span class="sample-line green"></span><span contenteditable="true">Required support broadcast</span></div>
+        <div class="legend-row"><span class="sample-line gold"></span><span contenteditable="true">Optional / experimental channel</span></div>
+      </div>
+
+      <article class="node main" id="motor" data-x="548" data-y="330">
+        <h2 contenteditable="true">Main Motor Hub</h2>
+        <div class="file" contenteditable="true">elevator_motor.py - Channel.MOTOR 113</div>
+        <ul contenteditable="true">
+          <li>current incoming/outgoing levels</li>
+          <li>motor state, countdown, new target</li>
+          <li>ready flag, target/progress, power</li>
+          <li>run flag, level 2 incoming/outgoing flags</li>
+          <li>config mode: mode, speed, count</li>
+        </ul>
+      </article>
+
+      <article class="node" id="switch" data-x="70" data-y="185">
+        <h2 contenteditable="true">Switch Hub</h2>
+        <div class="file" contenteditable="true">elevator_switch.py - SWITCH 110</div>
+        <ul contenteditable="true">
+          <li>stable train sensor states</li>
+          <li>switch straight/curved states</li>
+          <li>waiting train per level</li>
+        </ul>
+      </article>
+
+      <article class="node" id="incoming" data-x="70" data-y="610">
+        <h2 contenteditable="true">Incoming Sensor Hub</h2>
+        <div class="file" contenteditable="true">elevator_incoming.py - INCOMING 111</div>
+        <ul contenteditable="true">
+          <li>entrance currently blocked</li>
+          <li>entrance stably blocked</li>
+          <li>shows waiting levels and movement status</li>
+        </ul>
+      </article>
+
+      <article class="node" id="outgoing" data-x="1098" data-y="610">
+        <h2 contenteditable="true">Outgoing Selector Hub</h2>
+        <div class="file" contenteditable="true">elevator_outcoming.py - OUTCOMING 112</div>
+        <ul contenteditable="true">
+          <li>selected/blocked sensor per level</li>
+          <li>train ready to move</li>
+          <li>selected target level</li>
+        </ul>
+      </article>
+
+      <article class="node optional" id="expander" data-x="1098" data-y="185">
+        <h2 contenteditable="true">Motor Expander Hubs</h2>
+        <div class="file" contenteditable="true">elevator_motor_expander.py - 114 / 115</div>
+        <ul contenteditable="true">
+          <li>connected/ready</li>
+          <li>motors done</li>
+          <li>current level and angle/progress</li>
+        </ul>
+      </article>
+
+      <article class="node optional" id="switch-sensor" data-x="70" data-y="790">
+        <h2 contenteditable="true">Optional Switch Sensor Hub</h2>
+        <div class="file" contenteditable="true">SWITCH_SENSOR 116</div>
+        <ul contenteditable="true">
+          <li>remote safety sensors after switches</li>
+        </ul>
+      </article>
+
+      <article class="node optional" id="level2" data-x="1098" data-y="790">
+        <h2 contenteditable="true">Experimental Level 2 Platform Hub</h2>
+        <div class="file" contenteditable="true">LEVEL_TWO_INCOMING / OUTCOMING</div>
+        <ul contenteditable="true">
+          <li>separate platform helper, currently experimental</li>
+        </ul>
+      </article>
+
+      <div class="edge-label green" data-edge="switch-motor" contenteditable="true">SWITCH 110</div>
+      <div class="edge-label green" data-edge="incoming-motor" contenteditable="true">INCOMING 111</div>
+      <div class="edge-label green" data-edge="outgoing-motor" contenteditable="true">OUTCOMING 112</div>
+      <div class="edge-label gold" data-edge="expander-motor" contenteditable="true">114 / 115 status</div>
+      <div class="edge-label blue" data-edge="motor-switch" contenteditable="true">MOTOR 113</div>
+      <div class="edge-label blue" data-edge="motor-incoming" contenteditable="true">MOTOR 113</div>
+      <div class="edge-label blue" data-edge="motor-outgoing" contenteditable="true">MOTOR 113</div>
+      <div class="edge-label blue" data-edge="motor-expander" contenteditable="true">MOTOR 113</div>
+      <div class="edge-label gold" data-edge="switch-sensor-switch" contenteditable="true">SWITCH_SENSOR 116</div>
+      <div class="edge-label green" data-edge="switch-incoming" contenteditable="true">SWITCH 110</div>
+      <div class="edge-label green" data-edge="incoming-outgoing" contenteditable="true">INCOMING 111</div>
+      <div class="edge-label gold" data-edge="motor-level2" contenteditable="true">MOTOR 113</div>
+    </section>
+
+    <p class="note" contenteditable="true">Dashed boxes/lines are optional or experimental. Payload field names match the current Python programs in this repository.</p>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const svg = document.getElementById("connectors");
+
+    const edges = [
+      { id: "switch-motor", from: "switch", to: "motor", color: "green" },
+      { id: "incoming-motor", from: "incoming", to: "motor", color: "green" },
+      { id: "outgoing-motor", from: "outgoing", to: "motor", color: "green" },
+      { id: "expander-motor", from: "expander", to: "motor", color: "gold" },
+      { id: "motor-switch", from: "motor", to: "switch", color: "blue" },
+      { id: "motor-incoming", from: "motor", to: "incoming", color: "blue" },
+      { id: "motor-outgoing", from: "motor", to: "outgoing", color: "blue" },
+      { id: "motor-expander", from: "motor", to: "expander", color: "blue" },
+      { id: "switch-sensor-switch", from: "switch-sensor", to: "switch", color: "gold" },
+      { id: "switch-incoming", from: "switch", to: "incoming", color: "green" },
+      { id: "incoming-outgoing", from: "incoming", to: "outgoing", color: "green" },
+      { id: "motor-level2", from: "motor", to: "level2", color: "gold" }
+    ];
+
+    const defaults = {};
+
+    function setInitialPositions() {
+      document.querySelectorAll(".node").forEach((node) => {
+        const x = Number(node.dataset.x);
+        const y = Number(node.dataset.y);
+        defaults[node.id] = { x, y };
+        node.style.left = `${x}px`;
+        node.style.top = `${y}px`;
+      });
+    }
+
+    function centerOf(node) {
+      return {
+        x: node.offsetLeft + node.offsetWidth / 2,
+        y: node.offsetTop + node.offsetHeight / 2
+      };
+    }
+
+    function edgePoint(fromNode, toNode) {
+      const from = centerOf(fromNode);
+      const to = centerOf(toNode);
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      const halfW = fromNode.offsetWidth / 2;
+      const halfH = fromNode.offsetHeight / 2;
+      const scale = Math.min(
+        Math.abs(dx) > 0 ? halfW / Math.abs(dx) : Infinity,
+        Math.abs(dy) > 0 ? halfH / Math.abs(dy) : Infinity
+      );
+      return {
+        x: from.x + dx * scale,
+        y: from.y + dy * scale
+      };
+    }
+
+    function drawEdges() {
+      svg.querySelectorAll("path.edge").forEach((path) => path.remove());
+
+      edges.forEach((edge) => {
+        const fromNode = document.getElementById(edge.from);
+        const toNode = document.getElementById(edge.to);
+        const start = edgePoint(fromNode, toNode);
+        const end = edgePoint(toNode, fromNode);
+        const midX = (start.x + end.x) / 2;
+        const midY = (start.y + end.y) / 2;
+        const curve = Math.min(90, Math.max(-90, (end.y - start.y) / 4));
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("class", `edge connector-line ${edge.color}`);
+        path.setAttribute("d", `M ${start.x} ${start.y} C ${midX} ${start.y + curve}, ${midX} ${end.y - curve}, ${end.x} ${end.y}`);
+        svg.appendChild(path);
+
+        const label = document.querySelector(`.edge-label[data-edge="${edge.id}"]`);
+        if (label) {
+          label.style.left = `${midX - label.offsetWidth / 2}px`;
+          label.style.top = `${midY - label.offsetHeight / 2}px`;
+        }
+      });
+    }
+
+    function enableDragging() {
+      let active = null;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      canvas.addEventListener("pointerdown", (event) => {
+        const node = event.target.closest(".node");
+        if (!node || event.target.isContentEditable) return;
+        active = node;
+        offsetX = event.clientX - node.offsetLeft;
+        offsetY = event.clientY - node.offsetTop;
+        node.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!active) return;
+        const x = Math.max(0, Math.min(canvas.clientWidth - active.offsetWidth, event.clientX - offsetX));
+        const y = Math.max(0, Math.min(canvas.clientHeight - active.offsetHeight, event.clientY - offsetY));
+        active.style.left = `${x}px`;
+        active.style.top = `${y}px`;
+        drawEdges();
+      });
+
+      canvas.addEventListener("pointerup", () => {
+        active = null;
+      });
+    }
+
+    document.getElementById("reset-layout").addEventListener("click", () => {
+      Object.entries(defaults).forEach(([id, pos]) => {
+        const node = document.getElementById(id);
+        node.style.left = `${pos.x}px`;
+        node.style.top = `${pos.y}px`;
+      });
+      drawEdges();
+    });
+
+    document.getElementById("toggle-grid").addEventListener("click", () => {
+      const current = canvas.style.backgroundImage;
+      canvas.style.backgroundImage = current === "none" ? "" : "none";
+    });
+
+    document.getElementById("download-html").addEventListener("click", () => {
+      const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "hub-communication-editable.html";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    setInitialPositions();
+    enableDragging();
+    window.addEventListener("resize", drawEdges);
+    window.addEventListener("load", drawEdges);
+    drawEdges();
+  </script>
+</body>
+</html>

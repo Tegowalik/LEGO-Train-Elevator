@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1220" viewBox="0 0 1500 1220" role="img" aria-labelledby="title desc">
+  <title id="title">LEGO Train Elevator 3x3 light matrix status overview</title>
+  <desc id="desc">Examples of the 3x3 ColorLightMatrix status displays used by the LEGO train elevator hubs.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2633; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #4d5b6a; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.8; rx: 12; }
+      .card-title { font: 700 20px Arial, sans-serif; fill: #1d2633; }
+      .card-subtitle { font: 600 14px Arial, sans-serif; fill: #536174; }
+      .text { font: 400 14px Arial, sans-serif; fill: #334155; }
+      .label { font: 700 13px Arial, sans-serif; fill: #334155; }
+      .black { fill: #101820; }
+      .blue { fill: #2364d2; }
+      .green { fill: #18a558; }
+      .orange { fill: #f28c28; }
+      .magenta { fill: #d946ef; }
+      .red { fill: #e23a3a; }
+      .white { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1; }
+      .gray { fill: #8b95a1; }
+      .brown { fill: #8b5a2b; }
+      .cyan { fill: #22d3ee; }
+      .violet { fill: #8b5cf6; }
+      .none { fill: #e2e8f0; stroke: #cbd5e1; stroke-width: 1; }
+      .matrix-frame { fill: #26384d; rx: 10; }
+      .tiny { font: 400 12px Arial, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1500" height="1220"/>
+  <text class="title" x="60" y="70">3x3 Light Matrix Status Displays</text>
+  <text class="subtitle" x="60" y="100">Color examples for the matrices used by the current LEGO Train Elevator programs.</text>
+
+  <g id="defs">
+    <g id="matrix-green">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="green" cx="22" cy="22" r="10"/><circle class="green" cx="46" cy="22" r="10"/><circle class="green" cx="70" cy="22" r="10"/>
+      <circle class="green" cx="22" cy="46" r="10"/><circle class="green" cx="46" cy="46" r="10"/><circle class="green" cx="70" cy="46" r="10"/>
+      <circle class="green" cx="22" cy="70" r="10"/><circle class="green" cx="46" cy="70" r="10"/><circle class="green" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-magenta">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="magenta" cx="22" cy="22" r="10"/><circle class="magenta" cx="46" cy="22" r="10"/><circle class="magenta" cx="70" cy="22" r="10"/>
+      <circle class="magenta" cx="22" cy="46" r="10"/><circle class="magenta" cx="46" cy="46" r="10"/><circle class="magenta" cx="70" cy="46" r="10"/>
+      <circle class="magenta" cx="22" cy="70" r="10"/><circle class="magenta" cx="46" cy="70" r="10"/><circle class="magenta" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-red-cross">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="red" cx="22" cy="22" r="10"/><circle class="black" cx="46" cy="22" r="10"/><circle class="red" cx="70" cy="22" r="10"/>
+      <circle class="black" cx="22" cy="46" r="10"/><circle class="red" cx="46" cy="46" r="10"/><circle class="black" cx="70" cy="46" r="10"/>
+      <circle class="red" cx="22" cy="70" r="10"/><circle class="black" cx="46" cy="70" r="10"/><circle class="red" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-wait-columns">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="orange" cx="22" cy="22" r="10"/><circle class="black" cx="46" cy="22" r="10"/><circle class="blue" cx="70" cy="22" r="10"/>
+      <circle class="orange" cx="22" cy="46" r="10"/><circle class="black" cx="46" cy="46" r="10"/><circle class="blue" cx="70" cy="46" r="10"/>
+      <circle class="orange" cx="22" cy="70" r="10"/><circle class="black" cx="46" cy="70" r="10"/><circle class="blue" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-bridge">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="blue" cx="22" cy="22" r="10"/><circle class="blue" cx="46" cy="22" r="10"/><circle class="blue" cx="70" cy="22" r="10"/>
+      <circle class="black" cx="22" cy="46" r="10"/><circle class="black" cx="46" cy="46" r="10"/><circle class="black" cx="70" cy="46" r="10"/>
+      <circle class="orange" cx="22" cy="70" r="10"/><circle class="orange" cx="46" cy="70" r="10"/><circle class="orange" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-countdown-green">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="none" cx="22" cy="22" r="10"/><circle class="none" cx="46" cy="22" r="10"/><circle class="none" cx="70" cy="22" r="10"/>
+      <circle class="green" cx="22" cy="46" r="10"/><circle class="green" cx="46" cy="46" r="10"/><circle class="green" cx="70" cy="46" r="10"/>
+      <circle class="green" cx="22" cy="70" r="10"/><circle class="green" cx="46" cy="70" r="10"/><circle class="green" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-random">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="none" cx="22" cy="22" r="10"/><circle class="none" cx="46" cy="22" r="10"/><circle class="orange" cx="70" cy="22" r="10"/>
+      <circle class="blue" cx="22" cy="46" r="10"/><circle class="green" cx="46" cy="46" r="10"/><circle class="orange" cx="70" cy="46" r="10"/>
+      <circle class="green" cx="22" cy="70" r="10"/><circle class="blue" cx="46" cy="70" r="10"/><circle class="orange" cx="70" cy="70" r="10"/>
+    </g>
+    <g id="matrix-white">
+      <rect class="matrix-frame" width="92" height="92"/>
+      <circle class="white" cx="22" cy="22" r="10"/><circle class="white" cx="46" cy="22" r="10"/><circle class="white" cx="70" cy="22" r="10"/>
+      <circle class="white" cx="22" cy="46" r="10"/><circle class="white" cx="46" cy="46" r="10"/><circle class="white" cx="70" cy="46" r="10"/>
+      <circle class="white" cx="22" cy="70" r="10"/><circle class="white" cx="46" cy="70" r="10"/><circle class="white" cx="70" cy="70" r="10"/>
+    </g>
+  </g>
+
+  <rect class="card" x="60" y="150" width="425" height="260"/>
+  <text class="card-title" x="90" y="190">Incoming hub, Port B</text>
+  <text class="card-subtitle" x="90" y="214">Waiting train display</text>
+  <use href="#matrix-wait-columns" x="90" y="240"/>
+  <text class="label" x="205" y="265">Columns show levels:</text>
+  <text class="text" x="205" y="292">left: level 3 / orange</text>
+  <text class="text" x="205" y="316">middle: level 2 / green or black</text>
+  <text class="text" x="205" y="340">right: level 1 / blue</text>
+  <text class="tiny" x="90" y="375">Example: trains waiting at level 3 and level 1.</text>
+
+  <rect class="card" x="535" y="150" width="425" height="260"/>
+  <text class="card-title" x="565" y="190">Incoming hub, Port C</text>
+  <text class="card-subtitle" x="565" y="214">Countdown / target display</text>
+  <use href="#matrix-green" x="565" y="240"/>
+  <use href="#matrix-magenta" x="675" y="240"/>
+  <text class="label" x="790" y="265">Green: entrance clear</text>
+  <text class="text" x="790" y="292">Magenta: entrance blocked</text>
+  <text class="text" x="790" y="316">Blue/green/orange: moving to target level</text>
+  <text class="tiny" x="565" y="375">Whole matrix is filled with the current status color.</text>
+
+  <rect class="card" x="1010" y="150" width="425" height="260"/>
+  <text class="card-title" x="1040" y="190">Incoming hub, Port D</text>
+  <text class="card-subtitle" x="1040" y="214">Movement OK / not OK display</text>
+  <use href="#matrix-green" x="1040" y="240"/>
+  <use href="#matrix-red-cross" x="1150" y="240"/>
+  <text class="label" x="1265" y="265">Green fill: safe / not running</text>
+  <text class="text" x="1265" y="292">Red X: elevator is running</text>
+  <text class="text" x="1265" y="316">Red fill: MOTOR signal missing</text>
+
+  <rect class="card" x="60" y="455" width="425" height="285"/>
+  <text class="card-title" x="90" y="495">Main motor hub, Port C</text>
+  <text class="card-subtitle" x="90" y="519">Manual mode target display</text>
+  <use href="#matrix-green" x="90" y="550"/>
+  <use href="#matrix-bridge" x="205" y="550"/>
+  <text class="label" x="320" y="574">Manual elevator:</text>
+  <text class="text" x="320" y="598">full matrix = selected level color</text>
+  <text class="label" x="320" y="630">Manual bridge:</text>
+  <text class="text" x="320" y="654">top row = incoming target</text>
+  <text class="text" x="320" y="678">bottom row = outgoing target</text>
+  <text class="tiny" x="90" y="710">Example: incoming level 1, outgoing level 3.</text>
+
+  <rect class="card" x="535" y="455" width="425" height="285"/>
+  <text class="card-title" x="565" y="495">Outgoing hub, Port D</text>
+  <text class="card-subtitle" x="565" y="519">Destination selection display</text>
+  <use href="#matrix-countdown-green" x="565" y="550"/>
+  <use href="#matrix-random" x="675" y="550"/>
+  <text class="label" x="790" y="574">Countdown:</text>
+  <text class="text" x="790" y="598">more LEDs light as one selection becomes stable</text>
+  <text class="label" x="790" y="630">No explicit target:</text>
+  <text class="text" x="790" y="654">random blue/green/orange LEDs while choosing</text>
+  <text class="text" x="790" y="678">Move: solid selected target color</text>
+
+  <rect class="card" x="1010" y="455" width="425" height="285"/>
+  <text class="card-title" x="1040" y="495">Hub status lights</text>
+  <text class="card-subtitle" x="1040" y="519">Important single-hub colors</text>
+  <circle class="white" cx="1060" cy="560" r="12"/><text class="text" x="1085" y="565">Auto elevator mode / reached target</text>
+  <circle class="gray" cx="1060" cy="592" r="12"/><text class="text" x="1085" y="597">Manual elevator mode</text>
+  <circle class="brown" cx="1060" cy="624" r="12"/><text class="text" x="1085" y="629">Manual bridge mode</text>
+  <circle class="green" cx="1060" cy="656" r="12"/><text class="text" x="1085" y="661">Running normally / connected</text>
+  <circle class="orange" cx="1060" cy="688" r="12"/><text class="text" x="1085" y="693">Slowing because offset is high</text>
+  <circle class="red" cx="1060" cy="720" r="12"/><text class="text" x="1085" y="725">Error, blocked reset, or safety stop</text>
+
+  <rect class="card" x="60" y="790" width="1375" height="300"/>
+  <text class="card-title" x="90" y="830">Level colors and common full-matrix states</text>
+  <g transform="translate(90,865)">
+    <use href="#matrix-white" x="0" y="0"/><text class="label" x="0" y="122">White</text><text class="tiny" x="0" y="144">Auto / ready</text>
+    <use href="#matrix-green" x="160" y="0"/><text class="label" x="160" y="122">Green</text><text class="tiny" x="160" y="144">Level 2 / OK</text>
+    <use href="#matrix-magenta" x="320" y="0"/><text class="label" x="320" y="122">Magenta</text><text class="tiny" x="320" y="144">Blocked / release</text>
+    <rect class="matrix-frame" x="480" y="0" width="92" height="92"/>
+    <circle class="blue" cx="502" cy="22" r="10"/><circle class="blue" cx="526" cy="22" r="10"/><circle class="blue" cx="550" cy="22" r="10"/>
+    <circle class="blue" cx="502" cy="46" r="10"/><circle class="blue" cx="526" cy="46" r="10"/><circle class="blue" cx="550" cy="46" r="10"/>
+    <circle class="blue" cx="502" cy="70" r="10"/><circle class="blue" cx="526" cy="70" r="10"/><circle class="blue" cx="550" cy="70" r="10"/>
+    <text class="label" x="480" y="122">Blue</text><text class="tiny" x="480" y="144">Level 1</text>
+    <rect class="matrix-frame" x="640" y="0" width="92" height="92"/>
+    <circle class="orange" cx="662" cy="22" r="10"/><circle class="orange" cx="686" cy="22" r="10"/><circle class="orange" cx="710" cy="22" r="10"/>
+    <circle class="orange" cx="662" cy="46" r="10"/><circle class="orange" cx="686" cy="46" r="10"/><circle class="orange" cx="710" cy="46" r="10"/>
+    <circle class="orange" cx="662" cy="70" r="10"/><circle class="orange" cx="686" cy="70" r="10"/><circle class="orange" cx="710" cy="70" r="10"/>
+    <text class="label" x="640" y="122">Orange</text><text class="tiny" x="640" y="144">Level 3</text>
+    <use href="#matrix-red-cross" x="800" y="0"/><text class="label" x="800" y="122">Red X</text><text class="tiny" x="800" y="144">Moving / not OK</text>
+  </g>
+</svg>
