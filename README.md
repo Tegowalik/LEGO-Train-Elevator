@@ -69,6 +69,8 @@ Sensor and matrix count for the automatic example:
 - The LEGO Powered Up remote is optional for fully automatic running, but required
   for manual modes and config mode.
 
+> For the Switch Hub, you additionally need 3 motors and 3 sensors in addition!
+
 Hub requirements:
 
 - The main motor hub and switch hub need six ports because the current programs use
